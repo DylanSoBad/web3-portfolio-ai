@@ -1,5 +1,6 @@
 import os
 import json
+import urllib.request
 from flask import Flask, request, jsonify, render_template
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -23,11 +24,32 @@ def ai_search():
     if not query:
         return jsonify({"error": "Vui lòng nhập tên dự án"}), 400
 
+    def get_defillama_data(q):
+        try:
+            req = urllib.request.Request("https://api.llama.fi/protocols", headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req) as response:
+                data = json.loads(response.read().decode())
+                q_lower = q.lower()
+                best = next((p for p in data if q_lower == p.get('name', '').lower() or q_lower == p.get('symbol', '').lower()), None)
+                if not best:
+                    best = next((p for p in data if q_lower in p.get('name', '').lower()), None)
+                if best:
+                    twitter = f"https://twitter.com/{best.get('twitter')}" if best.get('twitter') else "url"
+                    return f"\n[REAL-TIME DATA FROM DEFILLAMA API]:\n- Official Name: {best.get('name')}\n- TVL: ${best.get('tvl', 0):,.2f}\n- Chain: {best.get('chain')}\n- Description: {best.get('description')}\n- Website: {best.get('url')}\n- Twitter: {twitter}\n"
+        except Exception as e:
+            pass
+        return "\n[NO REAL-TIME DATA FOUND. RELY ON YOUR TRAINING DATA BUT DO NOT HALLUCINATE]\n"
+
+    live_data = get_defillama_data(query)
+
     # Dùng Prompt Engineering để ép AI trả về đúng chuẩn JSON mà Frontend cần
     prompt = f"""
     You are an expert Web3 Airdrop Researcher. Analyze the crypto project/ecosystem "{query}".
     Respond EXACTLY in the following JSON format. Do not use Markdown block tags (like ```json). Just return the raw JSON object.
     CRITICAL INSTRUCTION: You must provide FACTUAL data. Do NOT hallucinate. If you do not know the exact funds raised, backers, or social links, you MUST output "N/A" or "Chưa rõ" instead of making it up.
+    {live_data}
+    USE THE REAL-TIME DATA ABOVE FOR TVL, DESC, NAME AND SOCIAL LINKS IF IT IS AVAILABLE.
+    
     {{
       "name": "Official Project Name",
       "chain": "Blockchain network",
