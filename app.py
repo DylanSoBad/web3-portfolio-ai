@@ -27,19 +27,19 @@ def ai_search():
     prompt = f"""
     You are an expert Web3 Airdrop Researcher. Analyze the crypto project/ecosystem "{query}".
     Respond EXACTLY in the following JSON format. Do not use Markdown block tags (like ```json). Just return the raw JSON object.
-    Find real data for backers and social links. If you don't have exact URLs, provide a Google Search URL.
+    CRITICAL INSTRUCTION: You must provide FACTUAL data. Do NOT hallucinate. If you do not know the exact funds raised, backers, or social links, you MUST output "N/A" or "Chưa rõ" instead of making it up.
     {{
       "name": "Official Project Name",
       "chain": "Blockchain network",
       "logo": "First 1 to 2 letters",
       "status": "live", "soon", "rumor", or "ended",
       "desc": "Short, professional 2-sentence description of the project.",
-      "raise": "Funds raised (e.g. $45M) or TVL",
-      "backers": ["Backer 1", "Backer 2"],
-      "socials": {{"twitter": "url", "website": "url", "discord": "url"}},
+      "raise": "Funds raised (e.g. $45M) or TVL. If unknown, output 'N/A'",
+      "backers": ["Backer 1", "Backer 2"] (Only list real backers. If unknown, use []),
+      "socials": {{"twitter": "url", "website": "url", "discord": "url"}} (If exact URL unknown, output 'url'),
       "worth_farming": "A concise 2-sentence analysis on whether it is worth farming right now and why.",
       "airdrop_chance": "Estimated probability of an airdrop (e.g. 85%)",
-      "est": "Estimated airdrop value (e.g. $500-$2000)",
+      "est": "Estimated airdrop value (e.g. $500-$2000). If unknown, output 'N/A'",
       "diff": integer from 1 to 3,
       "tasks": ["Actionable task 1", "Actionable task 2", "Actionable task 3"],
       "potential": "high", "med", or "low",
@@ -48,9 +48,12 @@ def ai_search():
     """
 
     try:
-        # Gọi Gemini API (sử dụng model gemini-2.5-flash)
+        # Gọi Gemini API (sử dụng model gemini-2.5-flash) với nhiệt độ thấp để giảm ảo giác
         model = genai.GenerativeModel("gemini-2.5-flash")
-        response = model.generate_content(prompt)
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.types.GenerationConfig(temperature=0.1)
+        )
         
         result_text = response.text.strip()
         
