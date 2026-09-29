@@ -24,3 +24,7 @@ instance/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Frontend dependencies and downloaded package archive
+node_modules/
+*.tgz

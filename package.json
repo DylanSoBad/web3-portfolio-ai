@@ -1,0 +1,9 @@
+{
+  "name": "dylan-kage-profile",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"build": "node scripts/build.mjs", "verify:source": "node scripts/verify-source.mjs"},
+  "dependencies": {"@designcodeio/threeui": "1.2.0", "react": "19.2.0", "react-dom": "19.2.0", "three": "0.149.0"},
+  "devDependencies": {"esbuild": "0.25.12"}
+}
