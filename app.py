@@ -21,7 +21,7 @@ def kage_profile():
     source = (LANDING_PAGES / 'kage.html').read_text(encoding='utf-8')
     source = source.replace("const word = 'KAGE', gl = [];", "const word = 'DYLAN', gl = [];", 1)
     source = source.replace('Kage — Where stillness reveals the unseen', 'DylanWeb', 1)
-    source = source.replace('A five-chapter night walk through a Kyoto mountain temple. Charred cypress, lantern light and a vermilion moon, rendered live in WebGL.', 'Dylan explores testnets, retroactive campaigns, NFTs, DeFi, gaming, and building in Web3.', 1)
+    source = source.replace('A five-chapter night walk through a Kyoto mountain temple. Charred cypress, lantern light and a vermilion moon, rendered live in WebGL.', 'DylanWeb — Dylan tests early Web3 products, researches emerging ecosystems, and builds useful tools.', 1)
     source = source.replace("const names = ['The Hidden Gate', 'The Sanmon', 'Still Gardens', 'Sacred Craft', 'Afterlight', 'Colophon'];", "const names = ['Dylan', 'About', 'Focus', 'Skills', 'Contact', 'Details'];", 1)
     source = source.replace("'px Wordmark, sans-serif'", "'px Onest, sans-serif'")
     source = source.replace("document.fonts.load('600 320px Wordmark')", "document.fonts.load('600 320px Onest')", 1)

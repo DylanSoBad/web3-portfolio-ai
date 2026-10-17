@@ -25,12 +25,12 @@
     el.setAttribute('href', sections[i][2]);
     el.querySelector('.alt').setAttribute('aria-hidden', 'true');
   });
-  one('.hero-top .eyebrow').lastChild.textContent = ' DYLAN — WEB3 BUILDER';
-  items('h1 .mask-line > span').forEach((el, i) => { el.textContent = ['Explore.', 'Build.', 'Keep learning.'][i]; });
-  text('.hero-sub', 'I’m Dylan. I explore Web3 through testnets, retroactive campaigns, NFTs, DeFi, gaming, and building.');
+  one('.hero-top .eyebrow').lastChild.textContent = ' DYLAN — WEB3 TESTER & RESEARCHER';
+  items('h1 .mask-line > span').forEach((el, i) => { el.textContent = ['Test.', 'Research.', 'Build.'][i]; });
+  text('.hero-sub', 'I test early Web3 products, research emerging ecosystems, and build tools that make what I learn useful.');
   text('.hero-cue > span', 'Scroll to explore');
   text('.word-fb', 'DYLAN');
-  text('.hero-side .v', 'BUILD · LEARN · REPEAT');
+  text('.hero-side .v', 'TEST · RESEARCH · BUILD');
   const descriptions = ['A little about me and how I work.', 'The Web3 areas I actively explore.', 'What I work on and build.', 'Start with a hello.'];
   items('.chip').forEach((el, i) => {
     el.querySelector('b').textContent = sections[i][0];
@@ -46,9 +46,9 @@
   text('.peek-cap i', 'A closer look');
   text('#gate .sec-head .k', '01 — About');
   text('#gate .sec-head .jp', 'ABOUT');
-  text('#gate h2', 'Exploring Web3 by doing.');
-  text('.gate-copy .lead', 'My Web3 work spans testnets, retroactive campaigns, NFTs, DeFi, gaming, and building. I explore new ecosystems hands-on and turn what I learn into useful projects.');
-  text('.gate-copy .body', 'I enjoy testing products early, learning how communities and protocols work, and building alongside them. These are the areas you’ll find me working in.');
+  text('#gate h2', 'Testing and researching Web3.');
+  text('.gate-copy .lead', 'I’m Dylan, a Web3 tester and researcher. I explore early products and ecosystems through hands-on testing, then turn what I learn into practical tools.');
+  text('.gate-copy .body', 'My interests include testnets, retroactive campaigns, NFTs, DeFi, and gaming. The public projects below show how I organize research and build around it.');
   text('.gate-copy .arrowlink > span', 'Explore my focus');
   const web3Activities = [
     ['Testnet', 'Trying new networks and early products'],
@@ -68,6 +68,34 @@
     card.append(number, title, detail);
     return card;
   }));
+  const recentWork = [
+    ['Oct 2026', 'DylanWeb', 'Built this public Web3 profile and its interactive experience.', 'https://github.com/DylanSoBad/web3-portfolio-ai'],
+    ['Sep 2026', 'Dylan HQ', 'Built a dashboard for tracking airdrops, mints, targets, notes, and research tasks.', 'https://github.com/DylanSoBad/NoteBook'],
+    ['Aug 2026', 'Pact', 'Worked on a Solidity project built on ARC.', 'https://github.com/DylanSoBad/Pact'],
+  ];
+  const now = document.createElement('div');
+  now.className = 'recent-work';
+  const nowHeading = document.createElement('div');
+  nowHeading.className = 'recent-work-head';
+  const nowLabel = document.createElement('span'); nowLabel.textContent = 'NOW & RECENT WORK';
+  const nowTitle = document.createElement('h3'); nowTitle.textContent = 'A public record of what I build.';
+  nowHeading.append(nowLabel, nowTitle);
+  const nowList = document.createElement('div');
+  nowList.className = 'recent-work-list';
+  recentWork.forEach(([date, name, description, href]) => {
+    const link = document.createElement('a');
+    link.className = 'recent-work-item';
+    link.href = href;
+    link.setAttribute('data-cursor', '');
+    const time = document.createElement('time'); time.textContent = date;
+    const title = document.createElement('strong'); title.textContent = name;
+    const detail = document.createElement('span'); detail.textContent = description;
+    const arrow = document.createElement('span'); arrow.className = 'recent-work-arrow'; arrow.textContent = 'View code ↗';
+    link.append(time, title, detail, arrow);
+    nowList.append(link);
+  });
+  now.append(nowHeading, nowList);
+  activityGrid.after(now);
   text('#pathways .sec-head .k', '02 — Areas of focus');
   text('#pathways .sec-head .jp', 'FOCUS');
   items('.card').forEach((el, i) => {
@@ -77,28 +105,26 @@
   });
   text('#lessons .sec-head .k', '03 — Skills & projects');
   text('#lessons .sec-head .jp', 'SKILLS');
-  text('.cur-head h2', 'From exploration to building.');
-  text('.cur-head p', 'These are the Web3 activities I focus on. The source code for this portfolio is available on GitHub.');
+  text('.cur-head h2', 'Skills, with proof.');
+  text('.cur-head p', 'Each area links to a public project. I’ll add current testnet and research activity as I document it.');
   const skills = [
-    ['Testnets & Retroactive', 'EXPLORE', 'Trying early networks and participating in protocol campaigns.', 'Web3'],
-    ['NFT & DeFi', 'DISCOVER', 'Following collections, communities, and decentralized products.', 'Ecosystems'],
-    ['Gaming', 'PLAY', 'Exploring games and experiences built for Web3.', 'Games'],
-    ['Building', 'CREATE', 'Making useful tools and interactive web experiences.', 'Projects'],
-    ['Personal Portfolio', 'PROJECT', 'Personal portfolio built with Flask, React, and Three.js. View source ↗', 'GitHub'],
+    ['Wallet analysis', 'RESEARCH', 'Built an EVM wallet activity and balance scanner.', 'View code ↗', 'https://github.com/DylanSoBad/Wallet-Activity-Scanner'],
+    ['Research workflow', 'ORGANIZE', 'Built Dylan HQ to track airdrops, mints, targets, notes, and tasks.', 'View code ↗', 'https://github.com/DylanSoBad/NoteBook'],
+    ['Solidity prototyping', 'BUILD', 'Worked on Pact, a Solidity project built on ARC.', 'View code ↗', 'https://github.com/DylanSoBad/Pact'],
+    ['Storage tooling', 'BUILD', 'Built a CLI for uploading and retrieving Shelby storage blobs.', 'View code ↗', 'https://github.com/DylanSoBad/shelby-cli'],
+    ['Web experience', 'PUBLISH', 'Built DylanWeb with Flask, React, and Three.js.', 'View code ↗', 'https://github.com/DylanSoBad/web3-portfolio-ai'],
   ];
   items('.les').forEach((el, i) => {
     el.querySelector('h3').firstChild.textContent = skills[i][0] + ' ';
     el.querySelector('em').textContent = skills[i][1];
     el.querySelector('p').textContent = skills[i][2];
     el.querySelector('.t').textContent = skills[i][3];
-    if (i === 4) {
-      const a = document.createElement('a');
-      a.href = 'https://github.com/DylanSoBad/web3-portfolio-ai';
-      a.className = el.className;
-      for (const { name, value } of [...el.attributes]) a.setAttribute(name, value);
-      a.append(...el.childNodes);
-      el.replaceWith(a);
-    }
+    const a = document.createElement('a');
+    a.href = skills[i][4];
+    for (const { name, value } of [...el.attributes]) a.setAttribute(name, value);
+    a.setAttribute('aria-label', `${skills[i][0]}: view code on GitHub`);
+    a.append(...el.childNodes);
+    el.replaceWith(a);
   });
   text('#eternity .eyebrow', '04 — Contact');
   text('#eternity h2', 'Get in touch');
@@ -126,7 +152,7 @@
   xLink.textContent = 'X / Twitter ↗';
   contactOptions.append(emailAddress, xLink);
   contactLink.after(contactOptions);
-  text('.foot-brand p', 'Dylan — exploring testnets, retroactive campaigns, NFTs, DeFi, gaming, and building in Web3.');
+  text('.foot-brand p', 'Dylan — Web3 tester and researcher. Testing early products, researching ecosystems, and building useful tools.');
   const footerColumns = items('.foot-grid > div').slice(1);
   footerColumns[1].remove();
   const footerLinks = [
@@ -143,7 +169,7 @@
       li.append(a); ul.append(li);
     });
   });
-  items('.foot a[href^="https://"], .contact-options a[href^="https://"]').forEach((link) => {
+  items('.foot a[href^="https://"], .contact-options a[href^="https://"], .recent-work-item, .les[href^="https://"]').forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
       window.parent.postMessage({ type: 'dylan-external-link', url: link.href }, window.location.origin);
@@ -154,4 +180,5 @@
   style.textContent = `a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid #e0231c;outline-offset:6px}.foot a{overflow-wrap:anywhere}.les h3 em{font-family:inherit;font-size:10px;letter-spacing:.1em}.hero-side .v{font-family:inherit;font-size:11px;letter-spacing:.25em}@media(min-width:821px){.nav-burger{display:none}}.gate-stats{grid-column:1/-1;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;padding-top:0!important;margin-top:clamp(46px,8vh,96px)!important}.gate-stats .web3-activity{min-width:0;min-height:150px;padding:22px 24px!important;border-left:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}.gate-stats .web3-activity:nth-child(3n){border-right:1px solid var(--line-soft)}.gate-stats .web3-activity small{display:block;font-size:10px;letter-spacing:.18em;color:var(--vermilion);margin-bottom:8px}.gate-stats .web3-activity b{font-size:clamp(21px,2.1vw,30px);line-height:1.2}.gate-stats .web3-activity span{display:block;font-size:11px;letter-spacing:.02em;text-transform:none;line-height:1.5;margin-top:10px;color:var(--bone-dim)}@media(max-width:820px){.gate-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}.gate-stats .web3-activity{min-height:150px;padding:18px!important}.gate-stats .web3-activity:nth-child(3n){border-right:0}.gate-stats .web3-activity:nth-child(2n){border-right:1px solid var(--line-soft)}}@media(max-width:420px){.gate-stats .web3-activity{min-height:165px;padding:15px!important}.gate-stats .web3-activity b{font-size:20px}}`;
   document.head.append(style);
   style.textContent += `.foot-grid{grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,.6fr))}body[data-layout-footer="b"] .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:1080px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:820px){.foot-grid,body[data-layout-footer="b"] .foot-grid{grid-template-columns:1fr}}.contact-options{display:flex;justify-content:center;align-items:center;gap:12px 20px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:2}.contact-options span{color:var(--bone);font-size:13px}.contact-options a,.contact-options button{font:inherit;font-size:11px;letter-spacing:.1em;color:var(--bone);background:transparent;border:0;border-bottom:1px solid var(--line);padding:5px 0;cursor:pointer}.contact-options a:hover,.contact-options button:hover{border-color:var(--vermilion);color:var(--vermilion)}`;
+  style.textContent += `.recent-work{margin-top:clamp(62px,10vh,120px);position:relative;z-index:2}.recent-work-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line-soft)}.recent-work-head span{font-size:10px;font-weight:500;letter-spacing:.22em;color:var(--vermilion)}.recent-work-head h3{font-size:clamp(18px,2vw,26px);font-weight:400;letter-spacing:-.02em;text-align:right}.recent-work-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.recent-work-item{display:flex;flex-direction:column;min-width:0;min-height:190px;padding:25px 25px 22px 0;border-bottom:1px solid var(--line-soft)}.recent-work-item+.recent-work-item{padding-left:25px;border-left:1px solid var(--line-soft)}.recent-work-item time{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}.recent-work-item strong{margin-top:12px;font-size:clamp(18px,1.6vw,23px);font-weight:400;color:var(--bone)}.recent-work-item>span:not(.recent-work-arrow){margin-top:8px;font-size:12px;line-height:1.6;color:var(--bone-dim)}.recent-work-arrow{margin-top:auto;padding-top:17px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--vermilion)}.recent-work-item:hover strong,.recent-work-item:hover .recent-work-arrow,.les:hover .t{color:var(--bone)}.les[href]{text-decoration:none}.les .t{color:var(--vermilion)}@media(max-width:820px){.recent-work-head{display:block}.recent-work-head h3{margin-top:12px;text-align:left}.recent-work-list{grid-template-columns:1fr}.recent-work-item,.recent-work-item+.recent-work-item{min-height:0;padding:20px 0;border-left:0}.recent-work-item strong{margin-top:7px}.recent-work-arrow{padding-top:10px}}`;
 })();

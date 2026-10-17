@@ -4,3 +4,4 @@
 @media print{:root{color-scheme:light;--bg:white;--text:#111;--muted:#444;--accent:#284c23;--line:#ccc}body{font-size:11px}.page{width:100%}header,.actions,.more,footer,.skip{display:none}.hero{padding:0 0 20px}.avatar{display:none}h1{font-size:32px}.intro{font-size:13px}.section{grid-template-columns:180px 1fr;padding:18px 0;break-inside:avoid}.project{background:white;padding:12px}.project p,.skills p{font-size:11px}.socials{margin-top:10px}}
 
 body,button,input,textarea,select{font-family:'Onest',sans-serif}
+.work-list{display:grid;gap:14px}.skills a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}.skills a:hover{color:var(--text)}

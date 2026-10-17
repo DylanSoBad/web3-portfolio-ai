@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Dylan explores Web3 through testnets, retroactive campaigns, NFTs, DeFi, gaming, and building.">
+<meta name="description" content="DylanWeb — Dylan's Web3 tester and researcher profile, with recent work and public projects.">
 <meta name="theme-color" content="#05070a">
 <title>DylanWeb</title>
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="root"></div>
-<noscript><p style="color:white;padding:32px">Dylan — Web3 Builder. <a style="color:white" href="/cv">Read the simple CV</a></p></noscript>
+<noscript><p style="color:white;padding:32px">Dylan — Web3 tester and researcher. <a style="color:white" href="/cv">Read the simple CV</a></p></noscript>
 <script type="module" src="{{ url_for('static', filename='kage-ui.js') }}"></script>
 <script>
 window.addEventListener('message', (event) => {
@@ -20,7 +20,11 @@ window.addEventListener('message', (event) => {
     'https://t.me/iamdylan2026',
     'https://x.com/dylan_ngmi',
     'https://github.com/DylanSoBad',
-    'https://github.com/DylanSoBad/web3-portfolio-ai'
+    'https://github.com/DylanSoBad/web3-portfolio-ai',
+    'https://github.com/DylanSoBad/NoteBook',
+    'https://github.com/DylanSoBad/Pact',
+    'https://github.com/DylanSoBad/Wallet-Activity-Scanner',
+    'https://github.com/DylanSoBad/shelby-cli'
   ]);
   if (event.origin === window.location.origin && event.data?.type === 'dylan-external-link' && allowedLinks.has(event.data.url)) {
     window.location.assign(event.data.url);
