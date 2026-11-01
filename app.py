@@ -12,22 +12,7 @@ app = Flask(
     template_folder=str(ROOT_PATH / 'templates'),
     static_folder=str(ROOT_PATH / 'static'),
 )
-
-
-def resolve_landing_pages_dir() -> Path:
-    candidates = [
-        ROOT_PATH / 'vendor/threeui/public/landing-pages',
-        Path.cwd() / 'vendor/threeui/public/landing-pages',
-        Path(__file__).resolve().parent.parent / 'vendor/threeui/public/landing-pages',
-        Path('/var/task/vendor/threeui/public/landing-pages'),
-    ]
-    for c in candidates:
-        if (c / 'kage.html').is_file():
-            return c
-    return ROOT_PATH / 'vendor/threeui/public/landing-pages'
-
-
-LANDING_PAGES = resolve_landing_pages_dir()
+LANDING_PAGES = ROOT_PATH / 'vendor/threeui/public/landing-pages'
 
 
 class VercelPathFixMiddleware:
@@ -55,9 +40,20 @@ app.wsgi_app = VercelPathFixMiddleware(app.wsgi_app)
 
 @lru_cache(maxsize=1)
 def get_personalized_kage_html() -> str:
-    target = LANDING_PAGES / 'kage.html'
-    if not target.is_file():
-        raise FileNotFoundError(f"kage.html not found at {target} (LANDING_PAGES={LANDING_PAGES})")
+    candidates = [
+        ROOT_PATH / 'templates/kage.html',
+        LANDING_PAGES / 'kage.html',
+        Path.cwd() / 'templates/kage.html',
+        Path.cwd() / 'vendor/threeui/public/landing-pages/kage.html',
+    ]
+    target = None
+    for c in candidates:
+        if c.is_file():
+            target = c
+            break
+
+    if target is None:
+        raise FileNotFoundError(f"kage.html not found in candidates: {candidates}")
 
     source = target.read_text(encoding='utf-8')
     source = source.replace("const word = 'KAGE', gl = [];", "const word = 'DYLAN', gl = [];", 1)
@@ -101,7 +97,20 @@ def kage_profile():
 
 @app.get('/landing-pages/<path:filename>')
 def landing_asset(filename):
-    response = send_from_directory(LANDING_PAGES, filename)
+    clean_subpath = filename.removeprefix('secret-pathways-assets/')
+    
+    # Priority 1: vendor directory if present
+    if (LANDING_PAGES / filename).is_file():
+        response = send_from_directory(LANDING_PAGES, filename)
+    # Priority 2: static/secret-pathways-assets/
+    elif (ROOT_PATH / 'static/secret-pathways-assets' / clean_subpath).is_file():
+        response = send_from_directory(ROOT_PATH / 'static/secret-pathways-assets', clean_subpath)
+    # Priority 3: static root
+    elif (ROOT_PATH / 'static' / filename).is_file():
+        response = send_from_directory(ROOT_PATH / 'static', filename)
+    else:
+        return Response(f"Asset not found: {filename}", status=404)
+
     if any(filename.endswith(ext) for ext in ('.png', '.woff', '.woff2', '.ttf', '.js', '.css')):
         response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
     return response
