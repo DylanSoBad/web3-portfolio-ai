@@ -1,14 +1,25 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
+    "api/index.py": {
+      "includeFiles": [
+        "templates/**",
+        "static/**",
+        "vendor/threeui/public/landing-pages/**"
+      ]
+    },
     "app.py": {
-      "includeFiles": "vendor/threeui/public/landing-pages/**"
+      "includeFiles": [
+        "templates/**",
+        "static/**",
+        "vendor/threeui/public/landing-pages/**"
+      ]
     }
   },
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/app.py"
+      "destination": "/api/index"
     }
   ]
 }

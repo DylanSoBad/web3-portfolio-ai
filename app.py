@@ -3,8 +3,30 @@ from pathlib import Path
 
 from flask import Flask, Response, render_template, send_from_directory
 
-app = Flask(__name__)
-LANDING_PAGES = Path(app.root_path) / 'vendor/threeui/public/landing-pages'
+ROOT_PATH = Path(__file__).resolve().parent
+app = Flask(
+    __name__,
+    template_folder=str(ROOT_PATH / 'templates'),
+    static_folder=str(ROOT_PATH / 'static'),
+)
+LANDING_PAGES = ROOT_PATH / 'vendor/threeui/public/landing-pages'
+
+
+class VercelPathFixMiddleware:
+    """Ensure Flask router receives the original path from Vercel edge rewrite."""
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        matched_path = environ.get('HTTP_X_MATCHED_PATH')
+        if matched_path:
+            environ['PATH_INFO'] = matched_path
+        elif environ.get('PATH_INFO') in ('/api/index', '/api/index.py', '/app.py'):
+            environ['PATH_INFO'] = '/'
+        return self.wsgi_app(environ, start_response)
+
+
+app.wsgi_app = VercelPathFixMiddleware(app.wsgi_app)
 
 
 @lru_cache(maxsize=1)
@@ -30,6 +52,9 @@ def apply_security_headers(response: Response) -> Response:
 
 
 @app.get('/')
+@app.get('/app.py')
+@app.get('/api/index')
+@app.get('/api/index.py')
 def index():
     return render_template('index.html')
 
