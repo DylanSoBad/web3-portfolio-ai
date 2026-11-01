@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from flask import Flask, Response, render_template, send_from_directory
+from flask import Flask, Response, render_template, send_from_directory, request
 
 ROOT_PATH = Path(__file__).resolve().parent
 app = Flask(
@@ -48,7 +48,18 @@ def get_personalized_kage_html() -> str:
 def apply_security_headers(response: Response) -> Response:
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['X-Dylan-Version'] = '2026.11.01'
     return response
+
+
+@app.errorhandler(404)
+def debug_not_found(error):
+    return (
+        f"404 Debug info: path={request.path!r}, url={request.url!r}, "
+        f"PATH_INFO={request.environ.get('PATH_INFO')!r}, "
+        f"X_MATCHED_PATH={request.environ.get('HTTP_X_MATCHED_PATH')!r}",
+        404,
+    )
 
 
 @app.get('/')
