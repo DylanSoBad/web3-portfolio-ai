@@ -1,3 +1,4 @@
+import mimetypes
 import re
 import traceback
 from functools import lru_cache
@@ -5,6 +6,17 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlencode
 
 from flask import Flask, Response, render_template, send_from_directory
+
+# Explicitly register modern web mimetypes
+mimetypes.add_type('image/webp', '.webp')
+mimetypes.add_type('font/woff2', '.woff2')
+mimetypes.add_type('font/woff', '.woff')
+mimetypes.add_type('font/ttf', '.ttf')
+mimetypes.add_type('text/javascript', '.js')
+mimetypes.add_type('text/css', '.css')
+mimetypes.add_type('image/svg+xml', '.svg')
+mimetypes.add_type('image/png', '.png')
+mimetypes.add_type('image/x-icon', '.ico')
 
 ROOT_PATH = Path(__file__).resolve().parent
 app = Flask(
@@ -111,7 +123,12 @@ def landing_asset(filename):
     else:
         return Response(f"Asset not found: {filename}", status=404)
 
-    if any(filename.endswith(ext) for ext in ('.png', '.woff', '.woff2', '.ttf', '.js', '.css')):
+    # Explicit accurate Content-Type to prevent browser nosniff blocking
+    mime_type, _ = mimetypes.guess_type(filename)
+    if mime_type:
+        response.headers['Content-Type'] = mime_type
+
+    if any(filename.endswith(ext) for ext in ('.png', '.webp', '.woff', '.woff2', '.ttf', '.js', '.css')):
         response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
     return response
 
