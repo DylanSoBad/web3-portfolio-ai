@@ -1,5 +1,7 @@
+import re
 from functools import lru_cache
 from pathlib import Path
+from urllib.parse import parse_qs, urlencode
 
 from flask import Flask, Response, render_template, send_from_directory
 
@@ -10,6 +12,29 @@ app = Flask(
     static_folder=str(ROOT_PATH / 'static'),
 )
 LANDING_PAGES = ROOT_PATH / 'vendor/threeui/public/landing-pages'
+
+
+class VercelPathFixMiddleware:
+    """Extract original requested path rewritten by Vercel into __path__ query param."""
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        qs = environ.get('QUERY_STRING', '')
+        if '__path__=' in qs:
+            params = parse_qs(qs, keep_blank_values=True)
+            if '__path__' in params and params['__path__']:
+                raw_path = params['__path__'][0]
+                if not raw_path.startswith('/'):
+                    raw_path = '/' + raw_path
+                raw_path = re.sub(r'^/+', '/', raw_path)
+                environ['PATH_INFO'] = raw_path
+                del params['__path__']
+                environ['QUERY_STRING'] = urlencode(params, doseq=True)
+        return self.wsgi_app(environ, start_response)
+
+
+app.wsgi_app = VercelPathFixMiddleware(app.wsgi_app)
 
 
 @lru_cache(maxsize=1)
