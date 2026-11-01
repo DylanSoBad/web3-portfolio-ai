@@ -35,8 +35,14 @@ class ProfileIntegrationTest(unittest.TestCase):
         for url in ['/', '/cv', '/static/kage-ui.js', '/static/kage-ui.css', '/static/profile-content.js']:
             with self.subTest(url=url), self.client.get(url) as response:
                 self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.headers.get('X-Content-Type-Options'), 'nosniff')
         self.assertEqual(self.client.get('/api/search?q=Monad').status_code, 404)
         self.assertEqual(self.client.get('/landing-pages/../app.py').status_code, 404)
+
+    def test_caching_headers_for_assets(self):
+        with self.client.get('/landing-pages/secret-pathways-assets/fonts.css') as res:
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('max-age=31536000', res.headers.get('Cache-Control', ''))
 
 
 if __name__ == '__main__':

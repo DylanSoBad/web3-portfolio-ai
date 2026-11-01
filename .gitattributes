@@ -1,0 +1,4 @@
+* text=auto eol=lf
+vendor/threeui/** text eol=lf
+*.json text eol=lf
+

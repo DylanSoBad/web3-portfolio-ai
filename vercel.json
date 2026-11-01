@@ -4,5 +4,11 @@
     "app.py": {
       "includeFiles": "vendor/threeui/public/landing-pages/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/app.py"
+    }
+  ]
 }
