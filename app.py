@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from flask import Flask, Response, render_template, send_from_directory, request
+from flask import Flask, Response, render_template, send_from_directory
 
 ROOT_PATH = Path(__file__).resolve().parent
 app = Flask(
@@ -10,23 +10,6 @@ app = Flask(
     static_folder=str(ROOT_PATH / 'static'),
 )
 LANDING_PAGES = ROOT_PATH / 'vendor/threeui/public/landing-pages'
-
-
-class VercelPathFixMiddleware:
-    """Ensure Flask router receives the original path from Vercel edge rewrite."""
-    def __init__(self, wsgi_app):
-        self.wsgi_app = wsgi_app
-
-    def __call__(self, environ, start_response):
-        matched_path = environ.get('HTTP_X_MATCHED_PATH')
-        if matched_path:
-            environ['PATH_INFO'] = matched_path
-        elif environ.get('PATH_INFO') in ('/api/index', '/api/index.py', '/app.py'):
-            environ['PATH_INFO'] = '/'
-        return self.wsgi_app(environ, start_response)
-
-
-app.wsgi_app = VercelPathFixMiddleware(app.wsgi_app)
 
 
 @lru_cache(maxsize=1)
@@ -48,18 +31,7 @@ def get_personalized_kage_html() -> str:
 def apply_security_headers(response: Response) -> Response:
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
-    response.headers['X-Dylan-Version'] = '2026.11.01'
     return response
-
-
-@app.errorhandler(404)
-def debug_not_found(error):
-    return (
-        f"404 Debug info: path={request.path!r}, url={request.url!r}, "
-        f"PATH_INFO={request.environ.get('PATH_INFO')!r}, "
-        f"X_MATCHED_PATH={request.environ.get('HTTP_X_MATCHED_PATH')!r}",
-        404,
-    )
 
 
 @app.get('/')
