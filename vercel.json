@@ -7,13 +7,6 @@
         "static/**",
         "vendor/threeui/public/landing-pages/**"
       ]
-    },
-    "app.py": {
-      "includeFiles": [
-        "templates/**",
-        "static/**",
-        "vendor/threeui/public/landing-pages/**"
-      ]
     }
   },
   "rewrites": [
