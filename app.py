@@ -1,4 +1,5 @@
 import re
+import traceback
 from functools import lru_cache
 from pathlib import Path
 from urllib.parse import parse_qs, urlencode
@@ -11,7 +12,22 @@ app = Flask(
     template_folder=str(ROOT_PATH / 'templates'),
     static_folder=str(ROOT_PATH / 'static'),
 )
-LANDING_PAGES = ROOT_PATH / 'vendor/threeui/public/landing-pages'
+
+
+def resolve_landing_pages_dir() -> Path:
+    candidates = [
+        ROOT_PATH / 'vendor/threeui/public/landing-pages',
+        Path.cwd() / 'vendor/threeui/public/landing-pages',
+        Path(__file__).resolve().parent.parent / 'vendor/threeui/public/landing-pages',
+        Path('/var/task/vendor/threeui/public/landing-pages'),
+    ]
+    for c in candidates:
+        if (c / 'kage.html').is_file():
+            return c
+    return ROOT_PATH / 'vendor/threeui/public/landing-pages'
+
+
+LANDING_PAGES = resolve_landing_pages_dir()
 
 
 class VercelPathFixMiddleware:
@@ -39,8 +55,11 @@ app.wsgi_app = VercelPathFixMiddleware(app.wsgi_app)
 
 @lru_cache(maxsize=1)
 def get_personalized_kage_html() -> str:
-    # Keep the verified upstream file byte-exact. Personalize only this response.
-    source = (LANDING_PAGES / 'kage.html').read_text(encoding='utf-8')
+    target = LANDING_PAGES / 'kage.html'
+    if not target.is_file():
+        raise FileNotFoundError(f"kage.html not found at {target} (LANDING_PAGES={LANDING_PAGES})")
+
+    source = target.read_text(encoding='utf-8')
     source = source.replace("const word = 'KAGE', gl = [];", "const word = 'DYLAN', gl = [];", 1)
     source = source.replace('Kage — Where stillness reveals the unseen', 'DylanWeb', 1)
     source = source.replace('A five-chapter night walk through a Kyoto mountain temple. Charred cypress, lantern light and a vermilion moon, rendered live in WebGL.', 'DylanWeb — Dylan tests early Web3 products, researches emerging ecosystems, and builds useful tools.', 1)
@@ -74,7 +93,10 @@ def simple_cv():
 
 @app.get('/landing-pages/kage.html')
 def kage_profile():
-    return Response(get_personalized_kage_html(), mimetype='text/html')
+    try:
+        return Response(get_personalized_kage_html(), mimetype='text/html')
+    except Exception as e:
+        return Response(f"Error loading kage.html: {e}\n{traceback.format_exc()}", mimetype='text/plain', status=500)
 
 
 @app.get('/landing-pages/<path:filename>')
