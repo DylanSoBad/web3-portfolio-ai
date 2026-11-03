@@ -3,166 +3,265 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="DylanWeb OS — Retro-futuristic Web3 desktop operating system, testing workspace, and project showcase.">
-<meta name="theme-color" content="#06050a">
+<meta name="description" content="Dylan — Web3 Tester, Protocol Researcher & Tool Builder.">
+<meta name="theme-color" content="#08070d">
 <meta property="og:type" content="website">
-<meta property="og:title" content="DylanWeb OS — Web3 Tester & Researcher">
-<meta property="og:description" content="Dylan tests early Web3 products, researches emerging ecosystems, and builds useful tools.">
+<meta property="og:title" content="Dylan — Web3 Tester & Researcher">
+<meta property="og:description" content="Independent Web3 tester exploring early protocols, testnets, and on-chain tooling.">
 <meta property="og:image" content="{{ url_for('static', filename='favicon.png') }}">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@dylan_ngmi">
-<meta name="twitter:title" content="DylanWeb OS — Web3 Tester & Researcher">
-<meta name="twitter:description" content="Dylan tests early Web3 products, researches emerging ecosystems, and builds useful tools.">
+<meta name="twitter:title" content="Dylan — Web3 Tester & Researcher">
+<meta name="twitter:description" content="Independent Web3 tester exploring early protocols, testnets, and on-chain tooling.">
 <meta name="twitter:image" content="{{ url_for('static', filename='favicon.png') }}">
-<title>DylanWeb OS — Web3 Workspace</title>
+<title>Dylan // Web3 Workspace</title>
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='os.css') }}">
 </head>
-<body>
+<body class="ryft-theme">
 
-<!-- Boot Screen -->
+<!-- ═══ Ryft Minimalist Boot Screen ═══ -->
 <div id="boot-screen">
-  <div class="boot-box">
-    <div class="boot-header">
-      <span>DYLAN OS // BOOTLOADER v2.6.0</span>
-      <span>SECURE_EVM_INIT</span>
-    </div>
-    <div class="boot-logs"></div>
-    <div class="boot-progress-bar">
-      <div class="boot-progress-fill"></div>
-    </div>
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
-      <button class="boot-skip-btn">SKIP [ESC]</button>
-      <span style="font-size:11px; color:var(--text-dim); font-family:var(--font-mono);">PRESS ESC TO ENTER</span>
-    </div>
-  </div>
+  <div class="startup-indicator"></div>
+  <div class="boot-logo-text">DYLAN OS</div>
+  <div class="boot-subtext" id="boot-status">INITIALIZING WORKSPACE...</div>
 </div>
 
-<!-- Desktop -->
+<!-- ═══ Desktop Container ═══ -->
 <div id="desktop-container">
   <canvas id="bg-canvas"></canvas>
   <div class="desktop-grid-overlay"></div>
-  <div class="desktop-scanlines"></div>
 
+  <!-- Top System Bar -->
+  <header class="top-ticker-bar">
+    <div class="ticker-brand">
+      <span class="ticker-brand-badge">SYS</span>
+      <span class="ticker-brand-title">DYLAN OS</span>
+    </div>
+    <div class="ticker-feed">
+      <span class="ticker-bullet">/</span>
+      <span class="ticker-msg" id="ticker-text">Researching Monad Devnet, Berachain v2, and Arbitrum Nitro</span>
+    </div>
+    <div class="ticker-right">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span>TESTNET ACTIVE</span>
+      </div>
+      <a href="/cv" class="cv-badge-link" title="Open Clean Minimal Text Resume">RESUME /cv ↗</a>
+    </div>
+  </header>
+
+  <!-- Desktop Backdrop Watermark -->
   <div class="desktop-watermark">
     <h1>DYLAN OS</h1>
-    <p>WEB3 RESEARCH &amp; TEST SUITE // 2026</p>
+    <p>WEB3 RESEARCH WORKSPACE // 2026</p>
   </div>
 
-  <!-- Desktop Icons -->
+  <!-- Desktop App Launchers -->
   <div class="desktop-icons">
-    <div class="dylan-icon" data-target="profile" title="Open Profile.app">
-      <div class="icon-box accent-pink">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <div class="dylan-icon selected" data-target="profile" title="Open Profile.app">
+      <div class="icon-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <span class="icon-label">Profile.app</span>
     </div>
     <div class="dylan-icon" data-target="projects" title="Open Projects.app">
-      <div class="icon-box accent-purple">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      <div class="icon-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
       </div>
       <span class="icon-label">Projects.app</span>
     </div>
     <div class="dylan-icon" data-target="terminal" title="Open Terminal.app">
-      <div class="icon-box accent-green">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      <div class="icon-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
       </div>
       <span class="icon-label">Terminal.app</span>
     </div>
     <div class="dylan-icon" data-target="contact" title="Open Contact.app">
-      <div class="icon-box accent-cyan">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <div class="icon-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
       </div>
       <span class="icon-label">Contact.app</span>
     </div>
     <div class="dylan-icon" data-target="cv" title="Open Resume.app">
-      <div class="icon-box accent-amber">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <div class="icon-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
       </div>
       <span class="icon-label">Resume.app</span>
     </div>
   </div>
 
-  <!-- WINDOW: Profile -->
-  <div class="os-window" data-window="profile" style="top:48px;left:160px;width:620px;max-width:calc(100vw - 180px);height:500px;display:none;">
+  <!-- ═══ WINDOW: Profile.app ═══ -->
+  <div class="os-window visible focused" data-window="profile" style="top:68px;left:210px;width:610px;max-width:calc(100vw - 230px);height:500px;">
     <div class="window-header">
-      <div class="window-title-group"><span class="window-title-icon" style="color:var(--neon-pink)">●</span><span>Profile.app — Dylan</span></div>
-      <div class="window-controls"><button class="ctrl-btn minimize"></button><button class="ctrl-btn maximize"></button><button class="ctrl-btn close"></button></div>
+      <div class="window-title">
+        <span class="window-title-badge">SYS</span>
+        <span class="window-title-text">Profile.app — Dylan</span>
+      </div>
+      <div class="window-controls">
+        <button class="ctrl-btn minimize" title="Minimize">_</button>
+        <button class="ctrl-btn maximize" title="Maximize">□</button>
+        <button class="ctrl-btn close" title="Close">✕</button>
+      </div>
     </div>
     <div class="window-content">
-      <div class="profile-hero">
-        <div class="profile-avatar">D</div>
-        <div class="profile-info">
-          <h2>Dylan</h2>
-          <div class="profile-role">Web3 Tester &amp; Researcher</div>
-          <div class="live-indicator"><span class="pulse-circle"></span>ACTIVE TESTER / BUILDER</div>
+      <div class="profile-card">
+        <div class="profile-avatar-box">
+          <div class="avatar-monomark">
+            <span class="avatar-letter">D</span>
+            <span class="avatar-tag">W3</span>
+          </div>
+        </div>
+        <div class="profile-meta">
+          <h2>DYLAN</h2>
+          <div class="profile-role-tag">Web3 Tester &amp; Protocol Researcher</div>
+          <div class="profile-tag-row">
+            <span class="profile-status-pill"><span class="status-dot"></span>AVAILABLE FOR RESEARCH</span>
+            <span class="profile-badge-tech">EVM / SOLIDITY</span>
+          </div>
         </div>
       </div>
-      <div class="profile-bio">Dylan tests early Web3 products, researches emerging ecosystems, and builds useful tools across EVM and beyond. Focused on on-chain validation, retroactive research, testnets, and practical developer tooling.</div>
-      <div style="font-size:11px;font-family:var(--font-mono);color:var(--neon-cyan);letter-spacing:0.08em;margin-bottom:8px;text-transform:uppercase;">Key Focus Areas</div>
-      <div class="activity-grid">
-        <div class="activity-pill"><b>Ecosystems</b><span>Monad, Berachain, Arbitrum Nitro</span></div>
-        <div class="activity-pill"><b>Smart Contracts</b><span>Solidity, Foundry, ARC Network</span></div>
-        <div class="activity-pill"><b>Tools &amp; Dashboards</b><span>Python, TypeScript, Flask, WebGL</span></div>
-        <div class="activity-pill"><b>On-chain Analysis</b><span>EVM Wallet Scanning &amp; Activity Tracking</span></div>
+
+      <div class="profile-bio">
+        Independent Web3 tester exploring early protocols, testnets, and developer tooling. I stress-test smart contracts, hunt testnet edge cases, evaluate retroactive opportunities, and build lightweight automation tools for on-chain analysis.
       </div>
-      <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="contact-action-btn" onclick="document.querySelector('.dylan-icon[data-target=\'projects\']').click()" style="padding:8px 14px;font-size:11px;"><span>Explore Projects →</span></button>
-        <button class="contact-action-btn copy-btn copy-email-action" style="padding:8px 14px;font-size:11px;"><span>Copy Email Address</span></button>
+
+      <div class="section-tag">Primary Focus &amp; Stack</div>
+      <div class="focus-grid">
+        <div class="focus-card">
+          <div class="focus-card-title">Ecosystems</div>
+          <div class="focus-card-desc">Monad (Devnet), Berachain, Arbitrum Nitro</div>
+        </div>
+        <div class="focus-card">
+          <div class="focus-card-title">Smart Contracts</div>
+          <div class="focus-card-desc">Solidity &amp; Foundry testnet prototyping</div>
+        </div>
+        <div class="focus-card">
+          <div class="focus-card-title">Tooling &amp; Scripts</div>
+          <div class="focus-card-desc">Python, TypeScript, Web3.py, Flask</div>
+        </div>
+        <div class="focus-card">
+          <div class="focus-card-title">On-Chain Analysis</div>
+          <div class="focus-card-desc">Wallet activity tracing &amp; contract monitoring</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="ryft-btn primary" onclick="document.querySelector('.dylan-icon[data-target=\'projects\']').click()">View 5 Projects →</button>
+        <button class="ryft-btn copy-email-btn">Copy Email Address</button>
       </div>
     </div>
   </div>
 
-  <!-- WINDOW: Projects -->
-  <div class="os-window" data-window="projects" style="top:76px;left:240px;width:660px;max-width:calc(100vw - 260px);height:540px;display:none;">
+  <!-- ═══ WINDOW: Projects.app ═══ -->
+  <div class="os-window" data-window="projects" style="top:88px;left:260px;width:660px;max-width:calc(100vw - 280px);height:530px;">
     <div class="window-header">
-      <div class="window-title-group"><span class="window-title-icon" style="color:var(--neon-purple)">●</span><span>Projects.app — Dylan's Web3 Work</span></div>
-      <div class="window-controls"><button class="ctrl-btn minimize"></button><button class="ctrl-btn maximize"></button><button class="ctrl-btn close"></button></div>
+      <div class="window-title">
+        <span class="window-title-badge">DEV</span>
+        <span class="window-title-text">Projects.app — Open Source Repositories</span>
+      </div>
+      <div class="window-controls">
+        <button class="ctrl-btn minimize" title="Minimize">_</button>
+        <button class="ctrl-btn maximize" title="Maximize">□</button>
+        <button class="ctrl-btn close" title="Close">✕</button>
+      </div>
     </div>
     <div class="window-content">
       <div class="project-list">
         <a class="project-card" href="https://github.com/DylanSoBad/NoteBook" target="_blank" rel="noopener noreferrer">
-          <div class="project-top"><span class="project-title">Dylan HQ (NoteBook)</span><span class="project-date">2026 // WEB3 APP</span></div>
-          <div class="project-desc">Personal Web3 dashboard for tracking airdrops, mints, research notes, and early projects. Designed with a clean cyber-aesthetic.</div>
-          <div class="project-tags"><span class="project-tag">Flask</span><span class="project-tag">TypeScript</span><span class="project-tag">Tailwind</span><span class="project-tag">Web3 Dashboard</span><span class="project-arrow">GitHub ↗</span></div>
+          <div class="project-top">
+            <span class="project-title">Dylan HQ (NoteBook)</span>
+            <span class="project-date">WEB3 APP</span>
+          </div>
+          <div class="project-desc">Personal Web3 dashboard for organizing airdrop strategies, mint schedules, research notes, and early protocol interactions.</div>
+          <div class="project-tags">
+            <span class="project-tag">Flask</span>
+            <span class="project-tag">TypeScript</span>
+            <span class="project-tag">Tailwind</span>
+            <span class="project-tag">Web3 Dashboard</span>
+            <span class="project-arrow">GitHub ↗</span>
+          </div>
         </a>
+
         <a class="project-card" href="https://github.com/DylanSoBad/Wallet-Activity-Scanner" target="_blank" rel="noopener noreferrer">
-          <div class="project-top"><span class="project-title">Wallet Activity Scanner</span><span class="project-date">2026 // ON-CHAIN TOOL</span></div>
-          <div class="project-desc">CLI &amp; web tooling for scanning EVM wallet address activity across chains, tracing transaction counts and testnet contracts.</div>
-          <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Web3.py</span><span class="project-tag">EVM Tracking</span><span class="project-arrow">GitHub ↗</span></div>
+          <div class="project-top">
+            <span class="project-title">Wallet Activity Scanner</span>
+            <span class="project-date">ON-CHAIN TOOL</span>
+          </div>
+          <div class="project-desc">CLI and web utility for querying EVM wallet transaction counts, scanning multi-chain activity, and tracking contract deployments.</div>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">Web3.py</span>
+            <span class="project-tag">EVM Tracking</span>
+            <span class="project-arrow">GitHub ↗</span>
+          </div>
         </a>
+
         <a class="project-card" href="https://github.com/DylanSoBad/Pact" target="_blank" rel="noopener noreferrer">
-          <div class="project-top"><span class="project-title">Pact</span><span class="project-date">2026 // SMART CONTRACT</span></div>
+          <div class="project-top">
+            <span class="project-title">Pact</span>
+            <span class="project-date">SMART CONTRACT</span>
+          </div>
           <div class="project-desc">Solidity smart contract prototype deployed on ARC, implementing secure decentralized commitments and milestone verification.</div>
-          <div class="project-tags"><span class="project-tag">Solidity</span><span class="project-tag">Foundry</span><span class="project-tag">ARC Network</span><span class="project-arrow">GitHub ↗</span></div>
+          <div class="project-tags">
+            <span class="project-tag">Solidity</span>
+            <span class="project-tag">Foundry</span>
+            <span class="project-tag">ARC Network</span>
+            <span class="project-arrow">GitHub ↗</span>
+          </div>
         </a>
+
         <a class="project-card" href="https://github.com/DylanSoBad/shelby-cli" target="_blank" rel="noopener noreferrer">
-          <div class="project-top"><span class="project-title">Shelby CLI</span><span class="project-date">2026 // DEVELOPER UTILITY</span></div>
-          <div class="project-desc">Lightweight command-line utility for uploading and managing storage blobs and decentralized assets.</div>
-          <div class="project-tags"><span class="project-tag">CLI</span><span class="project-tag">Python</span><span class="project-tag">Decentralized Storage</span><span class="project-arrow">GitHub ↗</span></div>
+          <div class="project-top">
+            <span class="project-title">Shelby CLI</span>
+            <span class="project-date">DEVELOPER UTILITY</span>
+          </div>
+          <div class="project-desc">Command-line tool for uploading, verifying, and managing storage blobs and decentralized assets across endpoints.</div>
+          <div class="project-tags">
+            <span class="project-tag">CLI</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">Storage Protocol</span>
+            <span class="project-arrow">GitHub ↗</span>
+          </div>
         </a>
+
         <a class="project-card" href="https://github.com/DylanSoBad/web3-portfolio-ai" target="_blank" rel="noopener noreferrer">
-          <div class="project-top"><span class="project-title">DylanWeb OS</span><span class="project-date">2026 // DESKTOP OS</span></div>
-          <div class="project-desc">Interactive retro-futuristic Web3 Desktop portfolio and test suite inspired by Ryft OS, featuring synthesized audio and live window management.</div>
-          <div class="project-tags"><span class="project-tag">Flask</span><span class="project-tag">WebOS Engine</span><span class="project-tag">Web Audio</span><span class="project-arrow">GitHub ↗</span></div>
+          <div class="project-top">
+            <span class="project-title">DylanWeb OS</span>
+            <span class="project-date">DESKTOP SYSTEM</span>
+          </div>
+          <div class="project-desc">Simulated Web3 desktop operating system inspired by Ryft OS, featuring draggable windows, sound engine, and live CLI.</div>
+          <div class="project-tags">
+            <span class="project-tag">Flask</span>
+            <span class="project-tag">WebOS Engine</span>
+            <span class="project-tag">Web Audio</span>
+            <span class="project-arrow">GitHub ↗</span>
+          </div>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- WINDOW: Terminal -->
-  <div class="os-window terminal-window" data-window="terminal" style="top:104px;left:320px;width:620px;max-width:calc(100vw - 340px);height:420px;display:none;">
+  <!-- ═══ WINDOW: Terminal.app ═══ -->
+  <div class="os-window terminal-window" data-window="terminal" style="top:108px;left:300px;width:620px;max-width:calc(100vw - 320px);height:420px;">
     <div class="window-header">
-      <div class="window-title-group"><span class="window-title-icon" style="color:var(--neon-green)">●</span><span>Terminal.app — dylan-sh (v2.6)</span></div>
-      <div class="window-controls"><button class="ctrl-btn minimize"></button><button class="ctrl-btn maximize"></button><button class="ctrl-btn close"></button></div>
+      <div class="window-title">
+        <span class="window-title-badge">SH</span>
+        <span class="window-title-text">Terminal.app — dylan-sh (v2.6)</span>
+      </div>
+      <div class="window-controls">
+        <button class="ctrl-btn minimize" title="Minimize">_</button>
+        <button class="ctrl-btn maximize" title="Maximize">□</button>
+        <button class="ctrl-btn close" title="Close">✕</button>
+      </div>
     </div>
     <div class="window-content">
       <div id="terminal-history" class="terminal-history">
-        <div class="terminal-line pink">DYLAN OS // SHELL v2.6.0 [x86_64-pc-none-elf]</div>
-        <div class="terminal-line muted">Type 'help' to see available commands or 'neofetch' for system info.</div>
+        <div class="terminal-line accent">DYLAN OS // SHELL v2.6.0</div>
+        <div class="terminal-line dim">Type 'help' for available commands or 'about' for background.</div>
       </div>
       <div class="terminal-input-row">
         <span class="terminal-prompt">dylan@web3:~$</span>
@@ -171,84 +270,171 @@
     </div>
   </div>
 
-  <!-- WINDOW: Contact -->
-  <div class="os-window" data-window="contact" style="top:132px;left:390px;width:440px;max-width:calc(100vw - 410px);height:420px;display:none;">
+  <!-- ═══ WINDOW: Contact.app ═══ -->
+  <div class="os-window" data-window="contact" style="top:100px;left:330px;width:520px;max-width:calc(100vw - 350px);height:440px;">
     <div class="window-header">
-      <div class="window-title-group"><span class="window-title-icon" style="color:var(--neon-cyan)">●</span><span>Contact.app — Get in Touch</span></div>
-      <div class="window-controls"><button class="ctrl-btn minimize"></button><button class="ctrl-btn maximize"></button><button class="ctrl-btn close"></button></div>
+      <div class="window-title">
+        <span class="window-title-badge">MSG</span>
+        <span class="window-title-text">Contact.app — Direct Channels</span>
+      </div>
+      <div class="window-controls">
+        <button class="ctrl-btn minimize" title="Minimize">_</button>
+        <button class="ctrl-btn maximize" title="Maximize">□</button>
+        <button class="ctrl-btn close" title="Close">✕</button>
+      </div>
     </div>
     <div class="window-content">
-      <div class="contact-dialog-body">
-        <h3>Let's Connect</h3>
-        <p>Open to early protocol testing, Web3 research collaborations, and tool building.</p>
-        <div class="contact-btn-grid">
-          <a class="contact-action-btn" href="https://t.me/iamdylan2026" target="_blank" rel="noopener noreferrer"><span>Telegram</span><span style="color:var(--neon-cyan)">@iamdylan2026 ↗</span></a>
-          <a class="contact-action-btn" href="https://x.com/dylan_ngmi" target="_blank" rel="noopener noreferrer"><span>X / Twitter</span><span style="color:var(--neon-pink)">@dylan_ngmi ↗</span></a>
-          <a class="contact-action-btn" href="https://github.com/DylanSoBad" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span style="color:var(--neon-green)">DylanSoBad ↗</span></a>
-          <button class="contact-action-btn copy-btn copy-email-action"><span>Copy Direct Email</span><span style="font-family:var(--font-mono);font-size:11px;">airdropdylan2@gmail.com</span></button>
-        </div>
+      <div style="margin-bottom:14px;">
+        <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:0.02em;color:var(--ryft-paper);margin-bottom:4px;">CONNECT WITH DYLAN</h3>
+        <p style="color:var(--ryft-text-muted);font-size:11px;">Open for early protocol test invitations, retroactive research, and tooling discussions.</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Telegram Card -->
+        <a class="contact-card-btn tg-card" href="https://t.me/iamdylan2026" target="_blank" rel="noopener noreferrer">
+          <div class="contact-icon-badge tg-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+          </div>
+          <div class="contact-info-col">
+            <div class="contact-platform">Telegram</div>
+            <div class="contact-card-handle">@iamdylan2026</div>
+            <div class="contact-status-tag"><span class="status-dot"></span>Direct chat &amp; fast replies</div>
+          </div>
+          <div class="contact-action-pill">OPEN ↗</div>
+        </a>
+
+        <!-- X (Twitter) Card -->
+        <a class="contact-card-btn x-card" href="https://x.com/dylan_ngmi" target="_blank" rel="noopener noreferrer">
+          <div class="contact-icon-badge x-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </div>
+          <div class="contact-info-col">
+            <div class="contact-platform">X (Twitter)</div>
+            <div class="contact-card-handle">@dylan_ngmi</div>
+            <div class="contact-status-tag"><span class="status-dot" style="background:var(--ryft-cyan)"></span>Web3 thoughts &amp; early findings</div>
+          </div>
+          <div class="contact-action-pill">FOLLOW ↗</div>
+        </a>
+
+        <!-- GitHub Card -->
+        <a class="contact-card-btn gh-card" href="https://github.com/DylanSoBad" target="_blank" rel="noopener noreferrer">
+          <div class="contact-icon-badge gh-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </div>
+          <div class="contact-info-col">
+            <div class="contact-platform">GitHub</div>
+            <div class="contact-card-handle">DylanSoBad</div>
+            <div class="contact-status-tag"><span class="status-dot" style="background:var(--ryft-success)"></span>Open-source tooling &amp; contracts</div>
+          </div>
+          <div class="contact-action-pill">CODE ↗</div>
+        </a>
+
+        <!-- Direct Email Card -->
+        <button class="contact-card-btn email-card copy-email-btn" type="button">
+          <div class="contact-icon-badge email-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+          </div>
+          <div class="contact-info-col">
+            <div class="contact-platform">Direct Email</div>
+            <div class="contact-card-handle">airdropdylan2@gmail.com</div>
+            <div class="contact-status-tag"><span class="status-dot" style="background:var(--ryft-pink)"></span>Click card to copy address</div>
+          </div>
+          <div class="contact-action-pill copy-tag">COPY 📋</div>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- WINDOW: Resume -->
-  <div class="os-window" data-window="cv" style="top:60px;left:190px;width:580px;max-width:calc(100vw - 210px);height:480px;display:none;">
+  <!-- ═══ WINDOW: Resume.app ═══ -->
+  <div class="os-window" data-window="cv" style="top:78px;left:240px;width:580px;max-width:calc(100vw - 260px);height:480px;">
     <div class="window-header">
-      <div class="window-title-group"><span class="window-title-icon" style="color:var(--neon-amber)">●</span><span>Resume.app — Quick Overview</span></div>
-      <div class="window-controls"><button class="ctrl-btn minimize"></button><button class="ctrl-btn maximize"></button><button class="ctrl-btn close"></button></div>
+      <div class="window-title">
+        <span class="window-title-badge">DOC</span>
+        <span class="window-title-text">Resume.app — Dylan</span>
+      </div>
+      <div class="window-controls">
+        <button class="ctrl-btn minimize" title="Minimize">_</button>
+        <button class="ctrl-btn maximize" title="Maximize">□</button>
+        <button class="ctrl-btn close" title="Close">✕</button>
+      </div>
     </div>
     <div class="window-content">
-      <h3 style="font-size:17px;margin-bottom:6px;">Dylan — Web3 Tester &amp; Researcher</h3>
-      <p style="color:var(--text-muted);font-size:12px;margin-bottom:16px;">Hands-on tester evaluating early-stage blockchain protocols, retroactive opportunities, and developer tools.</p>
-      <div style="background:var(--bg-card);border:1px solid var(--line-dim);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;">
-        <div style="font-size:11px;font-family:var(--font-mono);color:var(--neon-cyan);margin-bottom:6px;">PROVEN CAPABILITIES</div>
-        <ul style="font-size:12px;color:#c9c5d8;line-height:1.8;padding-left:18px;">
-          <li><b>EVM Wallet Analysis:</b> Querying transactions, monitoring gas, building automated balance and contract scanners.</li>
-          <li><b>Protocol Testing:</b> Systematic stress testing on Monad, Berachain, Arbitrum Nitro testnets.</li>
-          <li><b>Smart Contract Development:</b> Prototyping in Solidity with Foundry and deploying to testnets (e.g. Pact on ARC).</li>
-          <li><b>Web &amp; Tool Engineering:</b> Fullstack delivery with Flask, Python, TypeScript, and modern frontends.</li>
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--ryft-paper);margin-bottom:4px;">DYLAN — Web3 Tester &amp; Researcher</h3>
+      <p style="color:var(--ryft-text-muted);font-size:11px;margin-bottom:16px;">Hands-on tester evaluating early-stage blockchain protocols, retroactive opportunities, and developer tools.</p>
+      <div style="background:var(--ryft-surface);border:1px solid var(--ryft-border);padding:14px;margin-bottom:16px;">
+        <div class="section-tag" style="margin-bottom:8px;">CAPABILITIES &amp; EVIDENCE</div>
+        <ul style="font-size:11px;color:var(--ryft-text-muted);line-height:1.8;padding-left:18px;">
+          <li><b style="color:var(--ryft-paper)">EVM Wallet Analysis:</b> Querying transactions, monitoring gas, building automated balance and contract scanners.</li>
+          <li><b style="color:var(--ryft-paper)">Protocol Testing:</b> Systematic stress testing on Monad, Berachain, Arbitrum Nitro testnets.</li>
+          <li><b style="color:var(--ryft-paper)">Smart Contract Prototyping:</b> Prototyping in Solidity with Foundry and deploying to testnets (e.g. Pact on ARC).</li>
+          <li><b style="color:var(--ryft-paper)">Fullstack Delivery:</b> Delivering responsive web tooling with Flask, Python, TypeScript, and modern styling.</li>
         </ul>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;margin-top:18px;">
-        <a class="contact-action-btn" href="/cv" style="flex:1;text-align:center;justify-content:center;background:linear-gradient(135deg,rgba(255,42,133,0.2),rgba(139,92,246,0.2));border-color:var(--neon-pink);"><span>Open Fullscreen CV (/cv) ↗</span></a>
-      </div>
+      <a class="ryft-btn primary" href="/cv" style="display:inline-flex;">Open Clean Minimal Resume (/cv) ↗</a>
     </div>
   </div>
 
 </div>
 
-<!-- Taskbar -->
+<!-- ═══ Taskbar Dock ═══ -->
 <footer id="taskbar">
   <div class="taskbar-left">
-    <button id="start-btn" class="start-btn" title="Launch Menu"><span style="font-size:13px">❖</span><span>DYLAN OS</span></button>
+    <button id="start-btn" class="start-btn" title="Launch Menu">
+      <span>❖</span>
+      <span>DYLAN OS</span>
+    </button>
     <div class="taskbar-tasks"></div>
   </div>
   <div class="taskbar-right">
-    <div class="tray-status"><span class="pulse-circle"></span><span>EVM ONLINE</span></div>
-    <a href="/cv" class="tray-status" style="text-decoration:none;color:var(--neon-pink);border:1px solid var(--line-dim);padding:3px 8px;border-radius:4px;" title="View Minimal Text Resume">/cv</a>
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span>ONLINE</span>
+    </div>
     <div id="tray-clock" class="tray-clock">00:00:00</div>
   </div>
 </footer>
 
-<!-- Start Menu -->
+<!-- ═══ Start Menu ═══ -->
 <div id="start-menu">
-  <div class="start-menu-header">
-    <div class="start-menu-user">
-      <div class="start-avatar-mini">D</div>
-      <div><div class="start-user-name">Dylan</div><div class="start-user-sub">Tester &amp; Researcher</div></div>
+  <div class="start-header">
+    <div class="start-avatar-mini">D</div>
+    <div>
+      <div class="start-user-name">Dylan</div>
+      <div class="start-user-sub">Web3 Tester &amp; Researcher</div>
     </div>
   </div>
   <div class="start-menu-list">
-    <div class="start-menu-item" data-target="profile"><span style="color:var(--neon-pink)">●</span> Profile.app</div>
-    <div class="start-menu-item" data-target="projects"><span style="color:var(--neon-purple)">●</span> Projects.app</div>
-    <div class="start-menu-item" data-target="terminal"><span style="color:var(--neon-green)">●</span> Terminal.app</div>
-    <div class="start-menu-item" data-target="contact"><span style="color:var(--neon-cyan)">●</span> Contact.app</div>
-    <div class="start-menu-item" data-target="cv"><span style="color:var(--neon-amber)">●</span> Resume.app</div>
-    <a href="/cv" class="start-menu-item" style="border-top:1px solid var(--line-dim);margin-top:4px;"><span style="color:var(--neon-pink)">↗</span> Open /cv Page</a>
+    <div class="start-menu-item" data-target="profile">
+      <span style="color:var(--ryft-pink)">■</span> Profile.app
+    </div>
+    <div class="start-menu-item" data-target="projects">
+      <span style="color:var(--ryft-cyan)">■</span> Projects.app
+    </div>
+    <div class="start-menu-item" data-target="terminal">
+      <span style="color:var(--ryft-success)">■</span> Terminal.app
+    </div>
+    <div class="start-menu-item" data-target="contact">
+      <span style="color:var(--ryft-pink)">■</span> Contact.app
+    </div>
+    <div class="start-menu-item" data-target="cv">
+      <span style="color:var(--ryft-cyan)">■</span> Resume.app
+    </div>
+    <a href="/cv" class="start-menu-item" style="border-top:1px solid var(--ryft-border);margin-top:4px;">
+      <span style="color:var(--ryft-pink)">↗</span> Open /cv Page
+    </a>
   </div>
-  <div class="start-menu-footer">
-    <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);">DYLAN OS v2.6</span>
-    <span style="color:var(--neon-green);font-size:10px;font-weight:600;">● READY</span>
+  <div class="start-footer">
+    <span>DYLAN OS v2.6</span>
+    <span class="ready">● READY</span>
   </div>
 </div>
 
